@@ -1,7 +1,8 @@
 #!name=Block
 #!desc=屏蔽特定协议 & 端口 & 域名
 #!category=Block
-#!arguments=STUN:PROTOCOL,Bilibili:DEST-PORT,通用域名:DOMAIN,系统更新:DOMAIN
+#!arguments=STUN:PROTOCOL,Bilibili:DEST-PORT,通用域名:DOMAIN,系统更新:#
+#!arguments-desc=系统更新: DOMAIN
 
 [Rule]
 {{{STUN}}},STUN,REJECT
