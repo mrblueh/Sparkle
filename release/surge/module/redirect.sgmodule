@@ -1,0 +1,7 @@
+#!name=Redirect
+#!desc=Redirect URL
+#!category=General
+
+[URL Rewrite]
+^https?:\/\/(www.)?(g|google)\.cn https://www.google.com 302
+^https?:\/\/exhentai\.org https://e-hentai.org 302
