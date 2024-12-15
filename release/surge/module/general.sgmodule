@@ -1,5 +1,5 @@
 #!name=General
-#!desc=Basic configuration of Surge
+#!desc=Basic configuration
 #!category=General
 #!arguments=skip-proxy:skip-proxy,always-real-ip:always-real-ip,hide-vpn-icon:hide-vpn-icon
 
