@@ -1,0 +1,20 @@
+#!name=Block AD
+#!desc=去广告规则合集
+#!category=Block
+
+[URL Rewrite]
+# 百度网盘广告
+^https?:\/\/pan\.baidu\.com\/(act\/(api\/activityentry|v2\/(bchannel|welfare)\/list)|rest\/2\.0\/pcs\/ad) - reject
+
+# 中国移动开屏
+^https?:\/\/client\.app\.coc\.10086\.cn\/biz-orange\/DN\/(?:init\/startInit|emotionMarket) - reject
+
+# 浙里办开屏
+^https?:\/\/portal\.zjzwfw\.gov\.cn\/app_api\/appHome\/selectStartPic - reject
+
+[Map Local]
+
+[Script]
+
+[MITM]
+hostname = %APPEND% pan.baidu.com, client.app.coc.10086.cn, portal.zjzwfw.gov.cn
