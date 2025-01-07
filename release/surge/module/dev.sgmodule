@@ -1,0 +1,9 @@
+#!name=Development Mode
+#!desc=Redirect branch from master to dev
+#!category=General
+
+[URL Rewrite]
+^https:\/\/raw\.githubusercontent\.com\/kokoryh\/Sparkle\/master https://raw.githubusercontent.com/kokoryh/Sparkle/dev 302
+
+[MITM]
+hostname = %APPEND% raw.githubusercontent.com
