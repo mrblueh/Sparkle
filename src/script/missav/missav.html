@@ -1,0 +1,41 @@
+<script>
+    (function () {
+        'use strict';
+        document.addEventListener('ready', () => {
+            window.open = () => {};
+            if (window.player?.pause) {
+                const pause = window.player.pause;
+                window.player.pause = () => {
+                    if (document.hasFocus()) {
+                        pause();
+                    }
+                };
+            }
+        });
+    })();
+</script>
+
+<style>
+    .lg\\:hidden {
+        display: none !important;
+    }
+    .lg\\:block {
+        display: none !important;
+    }
+    a[href*="//bit.ly/"]
+    {
+        display: none !important;
+    }
+    .relative > div[x-init*='campaignId=under_player'] {
+        display: none !important;
+    }
+    div[style*='width: 300px; height: 250px;'] {
+        display: none !important;
+    }
+    div:has(a[href*='go.myavlive.com']) {
+        display: none !important;
+    }
+    div[x-show^='recommendItems'] ~ div[class]:has(> div > div.mx-auto > div.flex > a[rel^='sponsored']) {
+        display: none !important;
+    }
+</style>
