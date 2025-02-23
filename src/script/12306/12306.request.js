@@ -1,21 +1,23 @@
-try {
-    const url = $request.url;
-    if (url.endsWith('/getAdList')) {
-        const reqBody = JSON.parse($request.body);
-        $done({
-            response: {
-                body: getRespBody(reqBody),
-            },
-        });
-    } else if (url.endsWith('/mgw.htm')) {
-        const headers = $request.headers;
-        const type = headers['operation-type'];
-        $done({ abort: abortRequest(type) });
+$done(handleRequest($request) || {});
+
+function handleRequest({ url, headers, body }) {
+    try {
+        if (url.endsWith('/getAdList')) {
+            const reqBody = JSON.parse(body);
+            return {
+                response: {
+                    body: getRespBody(reqBody),
+                },
+            };
+        } else if (url.endsWith('/mgw.htm')) {
+            const type = headers['operation-type'];
+            return { abort: abortRequest(type) };
+        }
+        return null;
+    } catch (e) {
+        console.log(e.toString());
+        return null;
     }
-} catch (e) {
-    console.log(e.toString());
-} finally {
-    $done({});
 }
 
 function getRespBody(reqBody) {
@@ -29,6 +31,6 @@ function getRespBody(reqBody) {
 }
 
 function abortRequest(type) {
-    const filter = ['com.cars.otsmobile.newHomePageBussData'];
-    return filter.includes(type);
+    const filter = new Set(['com.cars.otsmobile.newHomePageBussData']);
+    return filter.has(type);
 }
