@@ -70,12 +70,16 @@ const scriptElementFilter = (i, element) => {
     }
     return false;
 };
-try {
-    const $ = cheerio.load($response.body);
-    $('script').filter(scriptElementFilter).remove();
-    $('head').append(scriptElement, styleElement);
-    $done({ body: $.html() });
-} catch (e) {
-    console.log(e.toString());
-    $done({});
-}
+const handleResponse = ({ body }) => {
+    try {
+        const $ = cheerio.load(body);
+        $('script').filter(scriptElementFilter).remove();
+        $('head').append(scriptElement, styleElement);
+        return { body: $.html() };
+    } catch (e) {
+        console.log(e.toString());
+        return null;
+    }
+};
+
+$done(handleResponse($response) || {});
