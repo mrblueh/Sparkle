@@ -1,0 +1,13 @@
+{
+    "name": "sparkle",
+    "author": "kokoryh",
+    "type": "module",
+    "scripts": {
+        "build": "node build.js"
+    },
+    "dependencies": {
+        "@protobuf-ts/plugin": "2.9.4",
+        "cheerio": "1.0.0",
+        "esbuild": "0.25.0"
+    }
+}
