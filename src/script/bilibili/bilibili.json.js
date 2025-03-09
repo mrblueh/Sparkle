@@ -12,8 +12,9 @@ function handleResponse({ body }, { url }) {
         };
         for (const route in routeHandlers) {
             if (url.includes(route)) {
-                const respBody = routeHandlers[route](JSON.parse(body));
-                return respBody ? { body: JSON.stringify(respBody) } : null;
+                const rawBody = JSON.parse(body);
+                if (!rawBody?.data) return null;
+                return { body: JSON.stringify(routeHandlers[route](rawBody)) };
             }
         }
         return null;
@@ -105,7 +106,6 @@ function handleLayout(body) {
 }
 
 function handleSplash(body) {
-    if (!body.data) return null;
     const keys = ['show', 'event_list'];
     keys.forEach(key => {
         if (body.data[key]) {
