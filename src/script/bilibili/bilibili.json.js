@@ -1,8 +1,8 @@
-$done(handleResponse($response, $request, $argument) || {});
+$done(handleResponse($response, $request, globalThis.$argument) || {});
 
-function handleResponse({ body }, { url }, args) {
+function handleResponse({ body }, { url }, argument) {
     try {
-        const options = typeof args === 'string' ? JSON.parse(args) : typeof args === 'object' ? args : {};
+        const options = typeof argument === 'string' ? JSON.parse(argument) : typeof argument === 'object' && argument !== null ? argument : {};
         const routeHandlers = {
             '/resource/show/tab/v2?': handleLayout,
             '/v2/splash': handleSplash,
