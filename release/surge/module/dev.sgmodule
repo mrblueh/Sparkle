@@ -3,7 +3,7 @@
 #!category=General
 
 [URL Rewrite]
-^https:\/\/raw\.githubusercontent\.com\/kokoryh\/Sparkle\/master https://raw.githubusercontent.com/kokoryh/Sparkle/dev 302
+^https:\/\/raw\.githubusercontent\.com\/kokoryh\/Sparkle\/refs\/heads\/master https://raw.githubusercontent.com/kokoryh/Sparkle/refs/heads/dev 302
 
 [MITM]
 hostname = %APPEND% raw.githubusercontent.com
