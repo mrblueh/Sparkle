@@ -1,11 +1,11 @@
 // ==UserScript==
 // @name         Missav
 // @namespace    http://tampermonkey.net/
-// @version      2025-02-23
+// @version      2025-03-14
 // @description  try to take over the world!
 // @author       kokoryh
-// @match        https://missav.ws/*
 // @match        https://missav.ai/*
+// @match        https://missav.ws/*
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=missav.ai
 // @grant        none
 // ==/UserScript==
@@ -15,6 +15,7 @@ const style = `
     .lg\\:hidden,
     a[href*="//bit.ly/"],
     div:has(a[href*='go.myavlive.com']),
+    [x-show$="video_details'"] > div > ul,
     div[style*='width: 300px; height: 250px;'],
     .relative > div[x-init*='campaignId=under_player'],
     div[x-show^='recommendItems'] ~ div[class]:has(> div > div.mx-auto > div.flex > a[rel^='sponsored']) {

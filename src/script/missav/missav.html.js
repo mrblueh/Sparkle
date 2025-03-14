@@ -17,9 +17,9 @@ const contentType = headers['content-type'];
 if (!contentType?.includes('text/html')) $done({});
 
 const scriptElement = `<script>(function(){'use strict';document.addEventListener('ready',()=>{window.open=()=>{};if(window.player?.pause){const pause=window.player.pause;window.player.pause=()=>{if(document.hasFocus()){pause()}}}})})();</script>`;
-const styleElement = `<style>.lg\\:block,.lg\\:hidden,a[href*="//bit.ly/"],div:has(a[href*='go.myavlive.com']),div[style*='width: 300px; height: 250px;'],.relative>div[x-init*='campaignId=under_player'],div[x-show^='recommendItems']~div[class]:has(>div>div.mx-auto>div.flex>a[rel^='sponsored']){display:none!important}</style>`;
+const styleElement = `<style>.lg\\:block,.lg\\:hidden,a[href*="//bit.ly/"],div:has(a[href*='go.myavlive.com']),[x-show$="video_details'"]>div>ul,div[style*='width: 300px; height: 250px;'],.relative>div[x-init*='campaignId=under_player'],div[x-show^='recommendItems']~div[class]:has(>div>div.mx-auto>div.flex>a[rel^='sponsored']){display:none!important}</style>`;
 const scriptElementFilter = (i, element) => {
-    if (element.attribs?.src?.includes('cdn.tsyndicate.com')) {
+    if (element.attribs?.src?.includes('tsyndicate.com')) {
         return true;
     }
     if (element.children?.[0]?.data?.includes('TSOutstreamVideo')) {
