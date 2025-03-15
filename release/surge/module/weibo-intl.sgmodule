@@ -1,6 +1,9 @@
 #!name=微博轻享版去广告
-#!desc=孩子们，微博轻享版回来了
+#!desc=极简体验
 #!category=Block
+
+[Rule]
+DOMAIN-SUFFIX,biz.weibo.com,REJECT,pre-matching
 
 [Map Local]
 ^https?:\/\/api\.weibo\.cn\/2\/ad\/weibointl\? header="content-type: application/json" data-type=text data="{}"

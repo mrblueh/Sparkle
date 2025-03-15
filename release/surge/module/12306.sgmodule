@@ -1,5 +1,5 @@
 #!name=12306去广告
-#!desc=移除开屏和应用内广告
+#!desc=移除开屏广告和首页广告
 #!category=Block
 
 [Script]

@@ -1,5 +1,5 @@
 #!name=BoxJs
-#!desc=http://boxjs.com
+#!desc=https://boxjs.com
 #!category=Plugin
 #!author=chavyleung[https://github.com/chavyleung/scripts]
 
@@ -7,7 +7,7 @@
 force-http-engine-hosts = %APPEND% boxjs.com
 
 [Script]
-BoxJs = type=http-request,pattern=https?:\/\/boxjs\.com,requires-body=true,timeout=120,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/box/chavy.boxjs.js
+boxjs = type=http-request,pattern=https?:\/\/boxjs\.com,requires-body=true,timeout=120,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/box/chavy.boxjs.js
 
 [MITM]
 hostname = %APPEND% boxjs.com
