@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Missav
 // @namespace    http://tampermonkey.net/
-// @version      2025-03-14
+// @version      2025-03-15
 // @description  try to take over the world!
 // @author       kokoryh
 // @match        https://missav.ai/*
@@ -14,6 +14,7 @@ const style = `
     .lg\\:block,
     .lg\\:hidden,
     a[href*="//bit.ly/"],
+    div[x-init*="#genki-counter'"],
     div:has(a[href*='go.myavlive.com']),
     [x-show$="video_details'"] > div > ul,
     div[style*='width: 300px; height: 250px;'],
