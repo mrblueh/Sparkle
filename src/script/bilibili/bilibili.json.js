@@ -349,7 +349,7 @@ function handleAccountMine(body, options) {
         }
     });
 
-    if (body.data.sections_v2 && options.showUperCenter === '1') {
+    if (body.data.sections_v2 && options.showUperCenter) {
         body.data.sections_v2.splice(1, 0, {
             title: '创作中心',
             items: [
@@ -405,26 +405,48 @@ function handleAccountMine(body, options) {
     delete body.data.vip_section;
     delete body.data.vip_section_v2;
 
-    if (body.data.vip && !body.data.vip.status) {
-        body.data.vip_type = 2;
-        Object.assign(body.data.vip, {
-            status: 1,
-            type: 2,
-            vip_pay_type: 1,
-            due_date: 4669824160000,
-        });
-    }
+    body.data.vip_type = 2;
+    body.data.vip = getHundredAnnualVipData();
+
     return body;
 }
 
 function handleAccountMyInfo(body) {
-    if (body.data.vip && !body.data.vip.status) {
-        Object.assign(body.data.vip, {
-            status: 1,
-            type: 2,
-            vip_pay_type: 1,
-            due_date: 4669824160000,
-        });
-    }
+    body.data.vip = getHundredAnnualVipData();
     return body;
+}
+
+function getHundredAnnualVipData() {
+    return {
+        status: 1,
+        type: 2,
+        vip_pay_type: 0,
+        due_date: 9005270400000,
+        tv_vip_status: 1,
+        tv_vip_pay_type: 0,
+        tv_due_date: 9005270400000,
+        role: 15,
+        theme_type: 0,
+        nickname_color: '#FB7299',
+        avatar_subscript: 1,
+        avatar_subscript_url: '',
+        avatar_icon: {
+            icon_resource: {},
+        },
+        label: {
+            path: '',
+            text: '百年大会员',
+            label_theme: 'hundred_annual_vip',
+            text_color: '#FFFFFF',
+            bg_style: 1,
+            bg_color: '#FB7299',
+            border_color: '',
+            use_img_label: true,
+            image: 'https://i0.hdslb.com/bfs/vip/52f60c8bdae8d4440edbb96dad72916022adf126.png',
+            img_label_uri_hans: '',
+            img_label_uri_hant: '',
+            img_label_uri_hans_static: 'https://i0.hdslb.com/bfs/vip/52f60c8bdae8d4440edbb96dad72916022adf126.png',
+            img_label_uri_hant_static: 'https://i0.hdslb.com/bfs/activity-plat/static/20220614/e369244d0b14644f5e1a06431e22a4d5/VEW8fCC0hg.png',
+        },
+    };
 }
