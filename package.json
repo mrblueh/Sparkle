@@ -4,11 +4,18 @@
     "type": "module",
     "scripts": {
         "build": "node build.js",
-        "jq": "type .\\jq\\input.json | jq -f ./jq/main.jq --indent 4 > ./jq/output.json"
+        "jq": "type .\\jq\\input.json | jq -f ./jq/main.jq --indent 4 > ./jq/output.json",
+        "build:proto": "(if not exist .\\src\\proto mkdir .\\src\\proto) && cd .\\proto && cmd /v /c \"set \"PROTO_FILES=.\" & (for /r . %i in (*.proto) do @(set \"abs=%~fi\" & set \"rel=!abs:%CD%\\proto\\=!\" & set \"PROTO_FILES=!PROTO_FILES! !rel!\")) & echo !PROTO_FILES! & protoc --proto_path=!PROTO_FILES! --ts_out=..\\src\\proto --ts_opt=output_javascript_es2019\" && cd .."
     },
     "dependencies": {
+        "@bufbuild/protobuf": "2.2.3",
         "@protobuf-ts/plugin": "2.9.4",
         "cheerio": "1.0.0",
-        "esbuild": "0.25.0"
+        "esbuild": "0.25.0",
+        "fflate": "0.8.2"
+    },
+    "devDependencies": {
+        "@bufbuild/buf": "1.50.0",
+        "@bufbuild/protoc-gen-es": "2.2.3"
     }
 }

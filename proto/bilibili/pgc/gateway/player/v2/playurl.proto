@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+package bilibili.pgc.gateway.player.v2;
+
+message PlayViewReply {
+    ViewInfo view_info = 5;
+    PlayAbilityExtConf play_ext_conf = 6;
+}
+
+message ViewInfo {
+    bytes try_watch_prompt_bar = 8;
+}
+
+message PlayAbilityExtConf {
+    CastTips cast_tips = 3;
+}
+
+message CastTips {
+    int32 code = 1;
+    string message = 2;
+}

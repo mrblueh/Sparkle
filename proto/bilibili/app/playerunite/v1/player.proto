@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+package bilibili.app.playerunite.v1;
+
+import "bilibili/playershared/playershared.proto";
+
+message PlayViewUniteReply {
+    bilibili.playershared.PlayArcConf play_arc_conf = 2;
+    bilibili.playershared.ViewInfo view_info = 9;
+}

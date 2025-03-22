@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+package bilibili.app.dynamic.v2;
+
+message DynAllReply {
+    DynamicList dynamic_list = 1;
+    CardVideoUpList up_list = 2;
+    bytes topic_list = 3;
+}
+
+message DynamicList {
+    repeated DynamicItem list = 1;
+}
+
+message CardVideoUpList {
+    repeated bytes list = 2;
+    int32 show_live_num = 4;
+    repeated bytes list_second = 10;
+}
+
+message DynamicItem {
+    DynamicType card_type = 1;
+}
+
+enum DynamicType {
+    dyn_none = 0;
+    ad = 15;
+    live_rcmd = 18;
+}

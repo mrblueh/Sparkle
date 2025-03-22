@@ -1,0 +1,7 @@
+syntax = "proto3";
+
+package bilibili.main.community.reply.v1;
+
+message MainListReply {
+    bytes cm = 11;
+}

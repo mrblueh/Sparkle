@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package bilibili.app.show.popular.v1;
+
+message PopularReply {
+    repeated Card items = 1;
+}
+
+message Card {
+    oneof item {
+        bytes rcmd_one_item = 10;
+        bytes small_cover_v5_ad = 11;
+        bytes topic_list = 12;
+    }
+}

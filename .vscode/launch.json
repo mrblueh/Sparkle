@@ -5,8 +5,16 @@
             "type": "node",
             "request": "launch",
             "name": "Debug",
-            "skipFiles": ["<node_internals>/**"],
-            "program": "${file}"
+            "program": "${file}",
+            "skipFiles": ["<node_internals>/**"]
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Bilibili Protobuf",
+            "program": "${workspaceFolder}/src/script/bilibili/bilibili.protobuf.js",
+            "runtimeArgs": ["--experimental-specifier-resolution=node"],
+            "skipFiles": ["<node_internals>/**"]
         }
     ]
 }
