@@ -12,12 +12,6 @@ message DynamicList {
     repeated DynamicItem list = 1;
 }
 
-message CardVideoUpList {
-    repeated bytes list = 2;
-    int32 show_live_num = 4;
-    repeated bytes list_second = 10;
-}
-
 message DynamicItem {
     DynamicType card_type = 1;
 }
@@ -26,4 +20,14 @@ enum DynamicType {
     dyn_none = 0;
     ad = 15;
     live_rcmd = 18;
+}
+
+message CardVideoUpList {
+    repeated UpListItem list = 2;
+    int32 show_live_num = 4;
+    repeated UpListItem list_second = 10;
+}
+
+message UpListItem {
+    bool separator = 11;
 }

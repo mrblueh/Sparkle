@@ -132,69 +132,6 @@ class DynamicList$Type extends MessageType {
  */
 export const DynamicList = new DynamicList$Type();
 // @generated message type with reflection information, may provide speed optimized methods
-class CardVideoUpList$Type extends MessageType {
-    constructor() {
-        super("bilibili.app.dynamic.v2.CardVideoUpList", [
-            { no: 2, name: "list", kind: "scalar", repeat: 2 /*RepeatType.UNPACKED*/, T: 12 /*ScalarType.BYTES*/ },
-            { no: 4, name: "show_live_num", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
-            { no: 10, name: "list_second", kind: "scalar", repeat: 2 /*RepeatType.UNPACKED*/, T: 12 /*ScalarType.BYTES*/ }
-        ]);
-    }
-    create(value) {
-        const message = globalThis.Object.create((this.messagePrototype));
-        message.list = [];
-        message.showLiveNum = 0;
-        message.listSecond = [];
-        if (value !== undefined)
-            reflectionMergePartial(this, message, value);
-        return message;
-    }
-    internalBinaryRead(reader, length, options, target) {
-        let message = target !== null && target !== void 0 ? target : this.create(), end = reader.pos + length;
-        while (reader.pos < end) {
-            let [fieldNo, wireType] = reader.tag();
-            switch (fieldNo) {
-                case /* repeated bytes list */ 2:
-                    message.list.push(reader.bytes());
-                    break;
-                case /* int32 show_live_num */ 4:
-                    message.showLiveNum = reader.int32();
-                    break;
-                case /* repeated bytes list_second */ 10:
-                    message.listSecond.push(reader.bytes());
-                    break;
-                default:
-                    let u = options.readUnknownField;
-                    if (u === "throw")
-                        throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
-                    let d = reader.skip(wireType);
-                    if (u !== false)
-                        (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
-            }
-        }
-        return message;
-    }
-    internalBinaryWrite(message, writer, options) {
-        /* repeated bytes list = 2; */
-        for (let i = 0; i < message.list.length; i++)
-            writer.tag(2, WireType.LengthDelimited).bytes(message.list[i]);
-        /* int32 show_live_num = 4; */
-        if (message.showLiveNum !== 0)
-            writer.tag(4, WireType.Varint).int32(message.showLiveNum);
-        /* repeated bytes list_second = 10; */
-        for (let i = 0; i < message.listSecond.length; i++)
-            writer.tag(10, WireType.LengthDelimited).bytes(message.listSecond[i]);
-        let u = options.writeUnknownFields;
-        if (u !== false)
-            (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
-        return writer;
-    }
-}
-/**
- * @generated MessageType for protobuf message bilibili.app.dynamic.v2.CardVideoUpList
- */
-export const CardVideoUpList = new CardVideoUpList$Type();
-// @generated message type with reflection information, may provide speed optimized methods
 class DynamicItem$Type extends MessageType {
     constructor() {
         super("bilibili.app.dynamic.v2.DynamicItem", [
@@ -241,3 +178,113 @@ class DynamicItem$Type extends MessageType {
  * @generated MessageType for protobuf message bilibili.app.dynamic.v2.DynamicItem
  */
 export const DynamicItem = new DynamicItem$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class CardVideoUpList$Type extends MessageType {
+    constructor() {
+        super("bilibili.app.dynamic.v2.CardVideoUpList", [
+            { no: 2, name: "list", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => UpListItem },
+            { no: 4, name: "show_live_num", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
+            { no: 10, name: "list_second", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => UpListItem }
+        ]);
+    }
+    create(value) {
+        const message = globalThis.Object.create((this.messagePrototype));
+        message.list = [];
+        message.showLiveNum = 0;
+        message.listSecond = [];
+        if (value !== undefined)
+            reflectionMergePartial(this, message, value);
+        return message;
+    }
+    internalBinaryRead(reader, length, options, target) {
+        let message = target !== null && target !== void 0 ? target : this.create(), end = reader.pos + length;
+        while (reader.pos < end) {
+            let [fieldNo, wireType] = reader.tag();
+            switch (fieldNo) {
+                case /* repeated bilibili.app.dynamic.v2.UpListItem list */ 2:
+                    message.list.push(UpListItem.internalBinaryRead(reader, reader.uint32(), options));
+                    break;
+                case /* int32 show_live_num */ 4:
+                    message.showLiveNum = reader.int32();
+                    break;
+                case /* repeated bilibili.app.dynamic.v2.UpListItem list_second */ 10:
+                    message.listSecond.push(UpListItem.internalBinaryRead(reader, reader.uint32(), options));
+                    break;
+                default:
+                    let u = options.readUnknownField;
+                    if (u === "throw")
+                        throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
+                    let d = reader.skip(wireType);
+                    if (u !== false)
+                        (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
+            }
+        }
+        return message;
+    }
+    internalBinaryWrite(message, writer, options) {
+        /* repeated bilibili.app.dynamic.v2.UpListItem list = 2; */
+        for (let i = 0; i < message.list.length; i++)
+            UpListItem.internalBinaryWrite(message.list[i], writer.tag(2, WireType.LengthDelimited).fork(), options).join();
+        /* int32 show_live_num = 4; */
+        if (message.showLiveNum !== 0)
+            writer.tag(4, WireType.Varint).int32(message.showLiveNum);
+        /* repeated bilibili.app.dynamic.v2.UpListItem list_second = 10; */
+        for (let i = 0; i < message.listSecond.length; i++)
+            UpListItem.internalBinaryWrite(message.listSecond[i], writer.tag(10, WireType.LengthDelimited).fork(), options).join();
+        let u = options.writeUnknownFields;
+        if (u !== false)
+            (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
+        return writer;
+    }
+}
+/**
+ * @generated MessageType for protobuf message bilibili.app.dynamic.v2.CardVideoUpList
+ */
+export const CardVideoUpList = new CardVideoUpList$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class UpListItem$Type extends MessageType {
+    constructor() {
+        super("bilibili.app.dynamic.v2.UpListItem", [
+            { no: 11, name: "separator", kind: "scalar", T: 8 /*ScalarType.BOOL*/ }
+        ]);
+    }
+    create(value) {
+        const message = globalThis.Object.create((this.messagePrototype));
+        message.separator = false;
+        if (value !== undefined)
+            reflectionMergePartial(this, message, value);
+        return message;
+    }
+    internalBinaryRead(reader, length, options, target) {
+        let message = target !== null && target !== void 0 ? target : this.create(), end = reader.pos + length;
+        while (reader.pos < end) {
+            let [fieldNo, wireType] = reader.tag();
+            switch (fieldNo) {
+                case /* bool separator */ 11:
+                    message.separator = reader.bool();
+                    break;
+                default:
+                    let u = options.readUnknownField;
+                    if (u === "throw")
+                        throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
+                    let d = reader.skip(wireType);
+                    if (u !== false)
+                        (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
+            }
+        }
+        return message;
+    }
+    internalBinaryWrite(message, writer, options) {
+        /* bool separator = 11; */
+        if (message.separator !== false)
+            writer.tag(11, WireType.Varint).bool(message.separator);
+        let u = options.writeUnknownFields;
+        if (u !== false)
+            (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
+        return writer;
+    }
+}
+/**
+ * @generated MessageType for protobuf message bilibili.app.dynamic.v2.UpListItem
+ */
+export const UpListItem = new UpListItem$Type();

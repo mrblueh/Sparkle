@@ -34,23 +34,6 @@ export interface DynamicList {
     list: DynamicItem[];
 }
 /**
- * @generated from protobuf message bilibili.app.dynamic.v2.CardVideoUpList
- */
-export interface CardVideoUpList {
-    /**
-     * @generated from protobuf field: repeated bytes list = 2;
-     */
-    list: Uint8Array[];
-    /**
-     * @generated from protobuf field: int32 show_live_num = 4;
-     */
-    showLiveNum: number;
-    /**
-     * @generated from protobuf field: repeated bytes list_second = 10;
-     */
-    listSecond: Uint8Array[];
-}
-/**
  * @generated from protobuf message bilibili.app.dynamic.v2.DynamicItem
  */
 export interface DynamicItem {
@@ -58,6 +41,32 @@ export interface DynamicItem {
      * @generated from protobuf field: bilibili.app.dynamic.v2.DynamicType card_type = 1;
      */
     cardType: DynamicType;
+}
+/**
+ * @generated from protobuf message bilibili.app.dynamic.v2.CardVideoUpList
+ */
+export interface CardVideoUpList {
+    /**
+     * @generated from protobuf field: repeated bilibili.app.dynamic.v2.UpListItem list = 2;
+     */
+    list: UpListItem[];
+    /**
+     * @generated from protobuf field: int32 show_live_num = 4;
+     */
+    showLiveNum: number;
+    /**
+     * @generated from protobuf field: repeated bilibili.app.dynamic.v2.UpListItem list_second = 10;
+     */
+    listSecond: UpListItem[];
+}
+/**
+ * @generated from protobuf message bilibili.app.dynamic.v2.UpListItem
+ */
+export interface UpListItem {
+    /**
+     * @generated from protobuf field: bool separator = 11;
+     */
+    separator: boolean;
 }
 /**
  * @generated from protobuf enum bilibili.app.dynamic.v2.DynamicType
@@ -96,16 +105,6 @@ declare class DynamicList$Type extends MessageType<DynamicList> {
  * @generated MessageType for protobuf message bilibili.app.dynamic.v2.DynamicList
  */
 export declare const DynamicList: DynamicList$Type;
-declare class CardVideoUpList$Type extends MessageType<CardVideoUpList> {
-    constructor();
-    create(value?: PartialMessage<CardVideoUpList>): CardVideoUpList;
-    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: CardVideoUpList): CardVideoUpList;
-    internalBinaryWrite(message: CardVideoUpList, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter;
-}
-/**
- * @generated MessageType for protobuf message bilibili.app.dynamic.v2.CardVideoUpList
- */
-export declare const CardVideoUpList: CardVideoUpList$Type;
 declare class DynamicItem$Type extends MessageType<DynamicItem> {
     constructor();
     create(value?: PartialMessage<DynamicItem>): DynamicItem;
@@ -116,4 +115,24 @@ declare class DynamicItem$Type extends MessageType<DynamicItem> {
  * @generated MessageType for protobuf message bilibili.app.dynamic.v2.DynamicItem
  */
 export declare const DynamicItem: DynamicItem$Type;
+declare class CardVideoUpList$Type extends MessageType<CardVideoUpList> {
+    constructor();
+    create(value?: PartialMessage<CardVideoUpList>): CardVideoUpList;
+    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: CardVideoUpList): CardVideoUpList;
+    internalBinaryWrite(message: CardVideoUpList, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter;
+}
+/**
+ * @generated MessageType for protobuf message bilibili.app.dynamic.v2.CardVideoUpList
+ */
+export declare const CardVideoUpList: CardVideoUpList$Type;
+declare class UpListItem$Type extends MessageType<UpListItem> {
+    constructor();
+    create(value?: PartialMessage<UpListItem>): UpListItem;
+    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: UpListItem): UpListItem;
+    internalBinaryWrite(message: UpListItem, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter;
+}
+/**
+ * @generated MessageType for protobuf message bilibili.app.dynamic.v2.UpListItem
+ */
+export declare const UpListItem: UpListItem$Type;
 export {};
