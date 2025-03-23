@@ -4,8 +4,9 @@
     "type": "module",
     "scripts": {
         "build": "node build.js",
-        "build:proto": "(if not exist .\\src\\proto mkdir .\\src\\proto) && cd .\\proto && cmd /v /c \"set \"PROTO_FILES=.\" & (for /r . %i in (*.proto) do @(set \"abs=%~fi\" & set \"rel=!abs:%CD%\\proto\\=!\" & set \"PROTO_FILES=!PROTO_FILES! !rel!\")) & echo !PROTO_FILES! & protoc --proto_path=!PROTO_FILES! --ts_out=..\\src\\proto --ts_opt=output_javascript_es2019\" && cd ..",
-        "jq": "type .\\jq\\input.json | jq -f ./jq/main.jq --indent 4 > ./jq/output.json"
+        "generate": "buf generate",
+        "generate:proto": "(if not exist .\\src\\proto mkdir .\\src\\proto) && cd .\\proto && cmd /v /c \"set \"PROTO_FILES=.\" & (for /r . %i in (*.proto) do @(set \"abs=%~fi\" & set \"rel=!abs:%CD%\\proto\\=!\" & set \"PROTO_FILES=!PROTO_FILES! !rel!\")) & echo !PROTO_FILES! & protoc --proto_path=!PROTO_FILES! --ts_out=..\\src\\proto --ts_opt=output_javascript_es2019\" && cd ..",
+        "jq": "type .\\jq\\input.json | jq -f ./jq/index.jq --indent 4 > ./jq/output.json"
     },
     "dependencies": {
         "@bufbuild/protobuf": "2.2.3",
@@ -16,6 +17,7 @@
     "devDependencies": {
         "@bufbuild/buf": "1.50.0",
         "@bufbuild/protoc-gen-es": "2.2.3",
-        "esbuild": "0.25.0"
+        "esbuild": "0.25.0",
+        "typescript": "5.8.2"
     }
 }
