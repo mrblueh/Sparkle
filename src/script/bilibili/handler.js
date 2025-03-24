@@ -23,7 +23,7 @@ const emptyBytes = new Uint8Array(0);
 export function handleDynAllReply(grpcBody, options) {
     const message = DynAllReply.fromBinary(grpcBody);
     message.topicList = emptyBytes;
-    message.dynamicList.list = message.dynamicList.list.filter(item => ![DynamicType.ad, DynamicType.live_rcmd].includes(item.cardType));
+    message.dynamicList.list = message.dynamicList.list.filter(item => ![DynamicType.AD, DynamicType.LIVE_RCMD].includes(item.cardType));
     if (options.showUpList === 'false') {
         delete message.upList;
     } else if (!options.isHD && options.showUpList !== 'true') {
@@ -142,7 +142,7 @@ export function handleViewReplyV2(grpcBody) {
         if (tabModule.tab.oneofKind !== 'introduction') return;
 
         tabModule.tab.introduction.modules = tabModule.tab.introduction.modules.filter(
-            module => ![ModuleType.PAY_BAR, ModuleType.SPECIALTAG, ModuleType.E55].includes(module.type)
+            module => ![ModuleType.PAY_BAR, ModuleType.SPECIALTAG, ModuleType.MERCHANDISE].includes(module.type)
         );
 
         const headlineModule = tabModule.tab.introduction.modules.find(module => module.type === ModuleType.UGC_HEADLINE);

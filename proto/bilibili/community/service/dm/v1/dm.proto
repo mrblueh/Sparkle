@@ -8,5 +8,5 @@ message DmViewReply {
 }
 
 message Command {
-    repeated bytes commandDms = 1;
+    repeated bytes command_dms = 1;
 }

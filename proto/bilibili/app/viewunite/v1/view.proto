@@ -60,7 +60,7 @@ enum ModuleType {
     RELATED_RECOMMEND = 28;
     PAY_BAR = 29;
     SPECIALTAG = 37;
-    E55 = 55;
+    MERCHANDISE = 55;
 }
 
 enum RelateCardType {

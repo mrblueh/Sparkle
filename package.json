@@ -5,7 +5,6 @@
     "scripts": {
         "build": "node build.js",
         "generate": "buf generate",
-        "generate:proto": "(if not exist .\\src\\proto mkdir .\\src\\proto) && cd .\\proto && cmd /v /c \"set \"PROTO_FILES=.\" & (for /r . %i in (*.proto) do @(set \"abs=%~fi\" & set \"rel=!abs:%CD%\\proto\\=!\" & set \"PROTO_FILES=!PROTO_FILES! !rel!\")) & echo !PROTO_FILES! & protoc --proto_path=!PROTO_FILES! --ts_out=..\\src\\proto --ts_opt=output_javascript_es2019\" && cd ..",
         "jq": "type .\\jq\\input.json | jq -f ./jq/index.jq --indent 4 > ./jq/output.json"
     },
     "dependencies": {

@@ -17,9 +17,9 @@ message DynamicItem {
 }
 
 enum DynamicType {
-    dyn_none = 0;
-    ad = 15;
-    live_rcmd = 18;
+    DYN_NONE = 0;
+    AD = 15;
+    LIVE_RCMD = 18;
 }
 
 message CardVideoUpList {
