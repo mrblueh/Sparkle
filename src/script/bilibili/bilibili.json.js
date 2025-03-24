@@ -404,6 +404,7 @@ function handleAccountMine(body, options) {
     delete body.data.live_tip;
     delete body.data.vip_section;
     delete body.data.vip_section_v2;
+    delete body.data.modular_vip_section;
 
     body.data.vip_type = 2;
     body.data.vip = getHundredAnnualVipData();
