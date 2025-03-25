@@ -77,13 +77,16 @@ export function handlePlayViewUniteReply(grpcBody) {
 
 export function handlePlayViewReply(grpcBody) {
     const message = PlayViewReply.fromBinary(grpcBody);
-    const backgroundPlayConf = message.playArc?.backgroundPlayConf;
-    if (backgroundPlayConf && (!backgroundPlayConf.isSupport || backgroundPlayConf.disabled)) {
-        backgroundPlayConf.isSupport = true;
-        backgroundPlayConf.disabled = false;
-        backgroundPlayConf.extraContent = null;
-        modifyBody(PlayViewReply, message);
-    }
+    const { backgroundPlayConf, castConf } = message.playArc || {};
+    [backgroundPlayConf, castConf].forEach(arcConf => {
+        if (arcConf && (!arcConf.isSupport || arcConf.disabled)) {
+            arcConf.isSupport = true;
+            arcConf.disabled = false;
+            arcConf.extraContent = null;
+            arcConf.unsupportScene.length = 0;
+        }
+    });
+    modifyBody(PlayViewReply, message);
 }
 
 export function handlePopularReply(grpcBody) {

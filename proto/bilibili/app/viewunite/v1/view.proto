@@ -23,6 +23,11 @@ message TabModule {
     }
 }
 
+enum TabType {
+    TAB_NONE = 0;
+    TAB_INTRODUCTION = 1;
+}
+
 message IntroductionTab {
     repeated Module modules = 2;
 }
@@ -33,6 +38,15 @@ message Module {
         Headline head_line = 5;
         Relates relates = 22;
     }
+}
+
+enum ModuleType {
+    UNKNOWN = 0;
+    UGC_HEADLINE = 3;
+    RELATED_RECOMMEND = 28;
+    PAY_BAR = 29;
+    SPECIALTAG = 37;
+    MERCHANDISE = 55;
 }
 
 message Headline {
@@ -47,20 +61,6 @@ message RelateCard {
     RelateCardType relate_card_type = 1;
     bytes cm_stock = 11;
     CardBasicInfo basic_info = 12;
-}
-
-enum TabType {
-    TAB_NONE = 0;
-    TAB_INTRODUCTION = 1;
-}
-
-enum ModuleType {
-    UNKNOWN = 0;
-    UGC_HEADLINE = 3;
-    RELATED_RECOMMEND = 28;
-    PAY_BAR = 29;
-    SPECIALTAG = 37;
-    MERCHANDISE = 55;
 }
 
 enum RelateCardType {

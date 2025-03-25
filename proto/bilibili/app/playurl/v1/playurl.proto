@@ -8,12 +8,14 @@ message PlayViewReply {
 
 message PlayArcConf {
     ArcConf background_play_conf = 1;
+    ArcConf cast_conf = 3;
 }
 
 message ArcConf {
     bool is_support = 1;
     bool disabled = 2;
     ExtraContent extra_content = 3;
+    repeated int64 unsupport_scene = 4;
 }
 
 message ExtraContent {
