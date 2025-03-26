@@ -2,12 +2,13 @@ version: v2
 inputs:
   - directory: proto
 plugins:
+  - local: protoc-gen-ts
+    opt:
+      - output_javascript_es2019
+    out: src/proto
+
   - local: protoc-gen-es
     opt:
       - target=js+dts
       - import_extension=js
-    out: src/proto
-  - local: protoc-gen-ts
-    opt:
-      - output_javascript_es2019
     out: src/proto
