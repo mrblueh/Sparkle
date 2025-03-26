@@ -1,5 +1,4 @@
 {
-    "workbench.editor.wrapTabs": true,
     "editor.formatOnSave": true,
     "protoc": {
         "options": ["--proto_path=${workspaceRoot}/proto"]

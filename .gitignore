@@ -6,7 +6,6 @@ jq
 src/lib
 src/proto
 src/script/ehentai
-src/script/jd
 src/script/missav/input.html
 src/script/missav/output.html
 src/util

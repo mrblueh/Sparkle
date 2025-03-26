@@ -5,7 +5,7 @@
     "scripts": {
         "build": "node build.js",
         "generate": "buf generate",
-        "jq": "type .\\jq\\input.json | jq -f ./jq/index.jq --indent 4 > ./jq/output.json"
+        "jq": "type .\\jq\\input.json | jq -f .\\jq\\index.jq --indent 4 > .\\jq\\output.json"
     },
     "dependencies": {
         "@bufbuild/protobuf": "2.2.5",
