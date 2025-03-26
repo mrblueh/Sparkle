@@ -31,6 +31,6 @@ function getRespBody(reqBody) {
 }
 
 function abortRequest(type) {
-    const filter = new Set(['com.cars.otsmobile.newHomePageBussData']);
-    return filter.has(type);
+    const filter = ['com.cars.otsmobile.newHomePageBussData'];
+    return filter.includes(type);
 }
