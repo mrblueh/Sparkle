@@ -6,7 +6,6 @@ plugins:
     opt:
       - output_javascript_es2019
     out: src/proto
-
   - local: protoc-gen-es
     opt:
       - target=js+dts

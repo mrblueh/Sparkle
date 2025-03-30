@@ -2,7 +2,7 @@
 node_modules
 package-lock.json
 
-jq
+jq/test
 src/lib
 src/proto
 src/script/ehentai
