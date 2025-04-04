@@ -1,3 +1,10 @@
 {
-    "recommendations": ["xaver.clang-format", "esbenp.prettier-vscode", "zxh404.vscode-proto3"]
+    "recommendations": [
+        "xaver.clang-format",
+        "dbaeumer.vscode-eslint",
+        "christian-kohler.npm-intellisense",
+        "christian-kohler.path-intellisense",
+        "esbenp.prettier-vscode",
+        "zxh404.vscode-proto3"
+    ]
 }

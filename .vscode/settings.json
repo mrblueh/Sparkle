@@ -1,5 +1,7 @@
 {
     "editor.formatOnSave": true,
+    "javascript.suggest.paths": false,
+    "typescript.suggest.paths": false,
     "protoc": {
         "options": ["--proto_path=${workspaceRoot}/proto"]
     }
