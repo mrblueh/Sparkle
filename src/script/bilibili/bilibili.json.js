@@ -1,21 +1,21 @@
 $done(handleResponse($response, $request, globalThis.$argument) || {});
 
 function handleResponse({ body }, { url }, argument) {
+    const routeHandlers = {
+        '/resource/show/tab/v2?': handleLayout,
+        '/v2/splash': handleSplash,
+        '/feed/index?': handleFeedIndex,
+        '/feed/index/story?': handleFeedIndexStory,
+        '/account/mine': handleAccountMine,
+        '/account/myinfo?': handleAccountMyInfo,
+    };
     try {
+        body = JSON.parse(body);
+        if (!body?.data) return null;
         const options = typeof argument === 'string' ? JSON.parse(argument) : typeof argument === 'object' && argument !== null ? argument : {};
-        const routeHandlers = {
-            '/resource/show/tab/v2?': handleLayout,
-            '/v2/splash': handleSplash,
-            '/feed/index?': handleFeedIndex,
-            '/feed/index/story?': handleFeedIndexStory,
-            '/account/mine': handleAccountMine,
-            '/account/myinfo?': handleAccountMyInfo,
-        };
         for (const route in routeHandlers) {
             if (url.includes(route)) {
-                const rawBody = JSON.parse(body);
-                if (!rawBody?.data) return null;
-                return { body: JSON.stringify(routeHandlers[route](rawBody, options)) };
+                return { body: JSON.stringify(routeHandlers[route](body, options)) };
             }
         }
         return null;

@@ -1,17 +1,21 @@
 $done(handleRequest($request) || {});
 
 function handleRequest({ url, headers, body }) {
+    const routeHandlers = {
+        '/getAdList': () => ({
+            response: {
+                body: getResponseBody(JSON.parse(body)),
+            },
+        }),
+        '/mgw.htm': () => ({
+            abort: shouldAbortRequest(headers['operation-type']),
+        }),
+    };
     try {
-        if (url.endsWith('/getAdList')) {
-            const reqBody = JSON.parse(body);
-            return {
-                response: {
-                    body: getRespBody(reqBody),
-                },
-            };
-        } else if (url.endsWith('/mgw.htm')) {
-            const type = headers['operation-type'];
-            return { abort: abortRequest(type) };
+        for (const route in routeHandlers) {
+            if (url.endsWith(route)) {
+                return routeHandlers[route]();
+            }
         }
         return null;
     } catch (e) {
@@ -20,17 +24,17 @@ function handleRequest({ url, headers, body }) {
     }
 }
 
-function getRespBody(reqBody) {
-    if (reqBody.placementNo === '0007') {
+function getResponseBody({ placementNo }) {
+    if (placementNo === '0007') {
         return '{"materialsList":[{"billMaterialsId":"1","filePath":"#","creativeType":1}],"advertParam":{"skipTime":1}}';
-    } else if (reqBody.placementNo === 'G0054') {
+    } else if (placementNo === 'G0054') {
         return '{"code":"00","materialsList":[{}]}';
     } else {
         return '{"code":"00","message":"0"}';
     }
 }
 
-function abortRequest(type) {
+function shouldAbortRequest(type) {
     const filter = ['com.cars.otsmobile.newHomePageBussData'];
     return filter.includes(type);
 }

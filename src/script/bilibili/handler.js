@@ -26,7 +26,7 @@ export function handleDynAllReply(grpcBody, options) {
     message.dynamicList.list = message.dynamicList.list.filter(item => ![DynamicType.AD, DynamicType.LIVE_RCMD].includes(item.cardType));
     if (options.showUpList === 'false') {
         delete message.upList;
-    } else if (!options.isHD && options.showUpList !== 'true') {
+    } else if (!options.isIPad && options.showUpList !== 'true') {
         if (message.upList?.showLiveNum) {
             const { list, listSecond } = message.upList;
             if (listSecond.length) {
@@ -144,19 +144,18 @@ export function handleViewReplyV2(grpcBody) {
     message.tab?.tabModule.forEach(tabModule => {
         if (tabModule.tab.oneofKind !== 'introduction') return;
 
-        tabModule.tab.introduction.modules = tabModule.tab.introduction.modules.filter(
-            module => ![ModuleType.PAY_BAR, ModuleType.SPECIALTAG, ModuleType.MERCHANDISE].includes(module.type)
-        );
-
-        const headlineModule = tabModule.tab.introduction.modules.find(module => module.type === ModuleType.UGC_HEADLINE);
-        if (headlineModule?.data.oneofKind === 'headLine') {
-            headlineModule.data.headLine.label = emptyBytes;
-        }
-
-        const relateModule = tabModule.tab.introduction.modules.find(module => module.type === ModuleType.RELATED_RECOMMEND);
-        if (relateModule?.data.oneofKind === 'relates') {
-            relateModule.data.relates.cards = relateModule.data.relates.cards.filter(filterRelateCard);
-        }
+        tabModule.tab.introduction.modules = tabModule.tab.introduction.modules.reduce((modules, module) => {
+            if ([ModuleType.PAY_BAR, ModuleType.SPECIALTAG, ModuleType.MERCHANDISE].includes(module.type)) {
+                return modules;
+            }
+            if (module.type === ModuleType.UGC_HEADLINE && module.data.oneofKind === 'headLine') {
+                module.data.headLine.label = emptyBytes;
+            } else if (module.type === ModuleType.RELATED_RECOMMEND && module.data.oneofKind === 'relates') {
+                module.data.relates.cards = module.data.relates.cards.filter(filterRelateCard);
+            }
+            modules.push(module);
+            return modules;
+        }, []);
     });
     modifyBody(ViewReplyV2, message);
 }
