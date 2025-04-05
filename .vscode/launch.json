@@ -13,7 +13,7 @@
             "request": "launch",
             "name": "Bilibili Protobuf",
             "program": "${workspaceFolder}/src/script/bilibili/bilibili.protobuf.js",
-            "runtimeArgs": ["--experimental-specifier-resolution=node"],
+            "runtimeArgs": ["--import", "tsx"],
             "skipFiles": ["<node_internals>/**"]
         }
     ]
