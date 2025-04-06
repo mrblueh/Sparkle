@@ -2,18 +2,21 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "Debug",
             "type": "node",
             "request": "launch",
-            "name": "Debug",
             "program": "${file}",
+            "runtimeExecutable": "tsx",
+            "runtimeArgs": ["watch"],
             "skipFiles": ["<node_internals>/**"]
         },
         {
+            "name": "Bilibili Protobuf",
             "type": "node",
             "request": "launch",
-            "name": "Bilibili Protobuf",
-            "program": "${workspaceFolder}/src/script/bilibili/bilibili.protobuf.js",
-            "runtimeArgs": ["--import", "tsx"],
+            "program": "${workspaceFolder}/src/script/bilibili/bilibili.protobuf.ts",
+            "runtimeExecutable": "tsx",
+            "runtimeArgs": ["watch"],
             "skipFiles": ["<node_internals>/**"]
         }
     ]
