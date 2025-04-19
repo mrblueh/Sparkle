@@ -1,0 +1,20 @@
+{
+    "compilerOptions": {
+        "target": "ESNext",
+        "lib": ["ESNext", "DOM"],
+        "baseUrl": "./",
+        "rootDir": "./",
+        "outDir": "./dist",
+        "module": "ESNext",
+        "moduleResolution": "bundler",
+        "typeRoots": ["./node_modules/@types"],
+        "paths": {
+            "@proto/*": ["src/proto/*"]
+        },
+        "allowJs": true,
+        "checkJs": true,
+        "strict": true,
+        "noImplicitAny": false,
+        "alwaysStrict": false
+    }
+}
