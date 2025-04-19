@@ -25,7 +25,9 @@ export function handleDynAllReply(grpcBody, options) {
     const message = DynAllReply.fromBinary(grpcBody);
     message.topicList = emptyBytes;
     if (message.dynamicList) {
-        message.dynamicList.list = message.dynamicList.list.filter(item => ![DynamicType.AD, DynamicType.LIVE_RCMD].includes(item.cardType));
+        message.dynamicList.list = message.dynamicList.list.filter(
+            item => ![DynamicType.AD, DynamicType.LIVE_RCMD].includes(item.cardType)
+        );
     }
     if (options.showUpList === 'false') {
         delete message.upList;
@@ -96,6 +98,10 @@ export function handlePlayViewReply(grpcBody) {
 export function handlePopularReply(grpcBody) {
     const message = PopularReply.fromBinary(grpcBody);
     message.items = message.items.filter(item => {
+        if (item.item.oneofKind === 'smallCoverV5') {
+            const card = item.item.smallCoverV5;
+            return card.base?.fromType === 'recommend' && !card.base.adInfo.length;
+        }
         return !['rcmdOneItem', 'smallCoverV5Ad', 'topicList'].includes(item.item.oneofKind as string);
     });
     modifyBody(PopularReply, message);
@@ -128,7 +134,13 @@ export function handleViewProgressReply(grpcBody) {
     modifyBody(ViewProgressReply, message);
 }
 
-const filterRelateCardType = [RelateCardType.GAME, RelateCardType.CM_TYPE, RelateCardType.LIVE, RelateCardType.AI_RECOMMEND, RelateCardType.COURSE];
+const filterRelateCardType = [
+    RelateCardType.GAME,
+    RelateCardType.CM_TYPE,
+    RelateCardType.LIVE,
+    RelateCardType.AI_RECOMMEND,
+    RelateCardType.COURSE,
+];
 
 const filterRelateCard = card => {
     return !filterRelateCardType.includes(card.relateCardType) && !card.cmStock.length && !card.basicInfo?.uniqueId;
