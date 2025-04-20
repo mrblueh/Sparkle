@@ -4,4 +4,19 @@ package bilibili.main.community.reply.v1;
 
 message MainListReply {
     bytes cm = 11;
+    repeated ReplyInfo top_replies = 14;
+}
+
+message ReplyInfo {
+    Content content = 12;
+}
+
+message Content {
+    map<string, Url> urls = 5;
+}
+
+message Url {
+    string title = 1;
+    string app_name = 5;
+    string app_package_name = 6;
 }

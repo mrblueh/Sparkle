@@ -1,23 +1,27 @@
 import { modifyBody } from '../../util/utils.js';
-import { DynAllReply, DynamicType } from '../../proto/bilibili/app/dynamic/v2/dynamic.js';
-import { DefaultWordsReply } from '../../proto/bilibili/app/interface/v1/search.js';
-import { ModeStatusReply } from '../../proto/bilibili/app/interface/v1/teenagers.js';
-import { PlayViewUniteReply } from '../../proto/bilibili/app/playerunite/v1/player.js';
-import { PlayViewReply } from '../../proto/bilibili/app/playurl/v1/playurl.js';
-import { PopularReply } from '../../proto/bilibili/app/show/popular/v1/popular.js';
-import { TFInfoReply, ViewReply, ViewProgressReply } from '../../proto/bilibili/app/view/v1/view.js';
+import { DynAllReply, DynamicType } from '@proto/bilibili/app/dynamic/v2/dynamic.js';
+import { DefaultWordsReply } from '@proto/bilibili/app/interface/v1/search.js';
+import { ModeStatusReply } from '@proto/bilibili/app/interface/v1/teenagers.js';
+import { PlayViewUniteReply } from '@proto/bilibili/app/playerunite/v1/player.js';
+import { PlayViewReply } from '@proto/bilibili/app/playurl/v1/playurl.js';
+import { PopularReply } from '@proto/bilibili/app/show/popular/v1/popular.js';
+import {
+    TFInfoReply,
+    ViewReply as IpadViewReply,
+    ViewProgressReply as IpadViewProgressReply,
+} from '@proto/bilibili/app/view/v1/view.js';
 import {
     Module,
     ModuleType,
     RelateCardType,
     RelatesFeedReply,
-    ViewReply as ViewReplyV2,
-    ViewProgressReply as ViewProgressReplyV2,
-} from '../../proto/bilibili/app/viewunite/v1/view.js';
-import { DmViewReply } from '../../proto/bilibili/community/service/dm/v1/dm.js';
-import { MainListReply } from '../../proto/bilibili/main/community/reply/v1/reply.js';
-import { PlayViewReply as PlayViewReplyV2 } from '../../proto/bilibili/pgc/gateway/player/v2/playurl.js';
-import { SearchAllResponse } from '../../proto/bilibili/polymer/app/search/v1/search.js';
+    ViewReply,
+    ViewProgressReply,
+} from '@proto/bilibili/app/viewunite/v1/view.js';
+import { DmViewReply } from '@proto/bilibili/community/service/dm/v1/dm.js';
+import { MainListReply } from '@proto/bilibili/main/community/reply/v1/reply.js';
+import { PlayViewReply as IpadPlayViewReply } from '@proto/bilibili/pgc/gateway/player/v2/playurl.js';
+import { SearchAllResponse } from '@proto/bilibili/polymer/app/search/v1/search.js';
 
 const emptyBytes = new Uint8Array(0);
 
@@ -68,7 +72,9 @@ export function handleModeStatusReply(grpcBody) {
 
 export function handlePlayViewUniteReply(grpcBody) {
     const message = PlayViewUniteReply.fromBinary(grpcBody);
-    message.viewInfo && (message.viewInfo.promptBar = emptyBytes);
+    if (message.viewInfo) {
+        message.viewInfo.promptBar = emptyBytes;
+    }
     if (message.playArcConf?.arcConfs) {
         Object.values(message.playArcConf.arcConfs).forEach(item => {
             if (item.isSupport && item.disabled) {
@@ -116,22 +122,24 @@ export function handleTFInfoReply(grpcBody) {
     }
 }
 
-export function handleViewReply(grpcBody) {
-    const message = ViewReply.fromBinary(grpcBody);
+export function handleIpadViewReply(grpcBody) {
+    const message = IpadViewReply.fromBinary(grpcBody);
     message.label = emptyBytes;
     message.cmIpad = emptyBytes;
     message.cmConfig = emptyBytes;
-    message.reqUser && (message.reqUser.elecPlusBtn = emptyBytes);
+    if (message.reqUser) {
+        message.reqUser.elecPlusBtn = emptyBytes;
+    }
     message.cms.length = 0;
     message.specialCellNew.length = 0;
     message.relates = message.relates.filter(item => !item.cm.length);
-    modifyBody(ViewReply, message);
+    modifyBody(IpadViewReply, message);
 }
 
-export function handleViewProgressReply(grpcBody) {
-    const message = ViewProgressReply.fromBinary(grpcBody);
+export function handleIpadViewProgressReply(grpcBody) {
+    const message = IpadViewProgressReply.fromBinary(grpcBody);
     message.videoGuide = emptyBytes;
-    modifyBody(ViewProgressReply, message);
+    modifyBody(IpadViewProgressReply, message);
 }
 
 const filterRelateCardType = [
@@ -152,10 +160,12 @@ export function handleRelatesFeedReply(grpcBody) {
     modifyBody(RelatesFeedReply, message);
 }
 
-export function handleViewReplyV2(grpcBody) {
-    const message = ViewReplyV2.fromBinary(grpcBody);
+export function handleViewReply(grpcBody) {
+    const message = ViewReply.fromBinary(grpcBody);
     message.cm = emptyBytes;
-    message.reqUser && (message.reqUser.elecPlusBtn = emptyBytes);
+    if (message.reqUser) {
+        message.reqUser.elecPlusBtn = emptyBytes;
+    }
 
     message.tab?.tabModule.forEach(tabModule => {
         if (tabModule.tab.oneofKind !== 'introduction') return;
@@ -173,13 +183,13 @@ export function handleViewReplyV2(grpcBody) {
             return modules;
         }, []);
     });
-    modifyBody(ViewReplyV2, message);
+    modifyBody(ViewReply, message);
 }
 
-export function handleViewProgressReplyV2(grpcBody) {
-    const message = ViewProgressReplyV2.fromBinary(grpcBody);
+export function handleViewProgressReply(grpcBody) {
+    const message = ViewProgressReply.fromBinary(grpcBody);
     message.dm = emptyBytes;
-    modifyBody(ViewProgressReplyV2, message);
+    modifyBody(ViewProgressReply, message);
 }
 
 export function handleDmViewReply(grpcBody) {
@@ -193,17 +203,24 @@ export function handleDmViewReply(grpcBody) {
 
 export function handleMainListReply(grpcBody) {
     const message = MainListReply.fromBinary(grpcBody);
+    const pattern = /^https:\/\/b23\.tv\/(cm|mall)/;
     message.cm = emptyBytes;
+    message.topReplies = message.topReplies.filter(reply => {
+        const urls = reply.content?.urls || {};
+        return !Object.keys(urls).some(url => pattern.test(url));
+    });
     modifyBody(MainListReply, message);
 }
 
-export function handlePlayViewReplyV2(grpcBody) {
-    const message = PlayViewReplyV2.fromBinary(grpcBody);
-    message.viewInfo && (message.viewInfo.tryWatchPromptBar = emptyBytes);
+export function handleIpadPlayViewReply(grpcBody) {
+    const message = IpadPlayViewReply.fromBinary(grpcBody);
+    if (message.viewInfo) {
+        message.viewInfo.tryWatchPromptBar = emptyBytes;
+    }
     if (message.playExtConf?.castTips) {
         message.playExtConf.castTips = { code: 0, message: '' };
     }
-    modifyBody(PlayViewReplyV2, message);
+    modifyBody(IpadPlayViewReply, message);
 }
 
 export function handleSearchAllResponse(grpcBody) {
