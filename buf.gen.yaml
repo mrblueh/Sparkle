@@ -4,7 +4,7 @@ inputs:
 plugins:
   - local: protoc-gen-ts
     opt:
-      - long_type_number
+      - long_type_string
       - output_javascript
     out: src/proto
   - local: protoc-gen-es

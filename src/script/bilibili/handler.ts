@@ -64,8 +64,8 @@ export function handleDefaultWordsReply(grpcBody) {
 export function handleModeStatusReply(grpcBody) {
     const message = ModeStatusReply.fromBinary(grpcBody);
     const teenagersModel = message.userModels.find(item => item.mode === 'teenagers');
-    if (teenagersModel?.policy?.interval) {
-        teenagersModel.policy.interval = 0;
+    if (teenagersModel?.policy?.interval && teenagersModel.policy.interval !== '0') {
+        teenagersModel.policy.interval = '0';
         modifyBody(ModeStatusReply, message);
     }
 }
@@ -115,7 +115,7 @@ export function handlePopularReply(grpcBody) {
 
 export function handleTFInfoReply(grpcBody) {
     const message = TFInfoReply.fromBinary(grpcBody);
-    if (message.tipsId) {
+    if (message.tipsId !== '0') {
         message.tfToast = emptyBytes;
         message.tfPanelCustomized = emptyBytes;
         modifyBody(TFInfoReply, message);
