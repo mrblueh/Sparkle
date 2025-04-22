@@ -201,14 +201,16 @@ export function handleDmViewReply(grpcBody) {
     modifyBody(DmViewReply, message);
 }
 
-export function handleMainListReply(grpcBody) {
+export function handleMainListReply(grpcBody, options) {
     const message = MainListReply.fromBinary(grpcBody);
     const pattern = /^https:\/\/b23\.tv\/(cm|mall)/;
     message.cm = emptyBytes;
-    message.topReplies = message.topReplies.filter(reply => {
-        const urls = reply.content?.urls || {};
-        return !Object.keys(urls).some(url => pattern.test(url));
-    });
+    if (options.filterTopReplies) {
+        message.topReplies = message.topReplies.filter(reply => {
+            const urls = reply.content?.urls || {};
+            return !Object.keys(urls).some(url => pattern.test(url));
+        });
+    }
     modifyBody(MainListReply, message);
 }
 
