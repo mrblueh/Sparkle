@@ -12,6 +12,7 @@ message ReplyInfo {
 }
 
 message Content {
+    string message = 1;
     map<string, Url> urls = 5;
 }
 

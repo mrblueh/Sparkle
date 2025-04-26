@@ -203,12 +203,13 @@ export function handleDmViewReply(grpcBody) {
 
 export function handleMainListReply(grpcBody, options) {
     const message = MainListReply.fromBinary(grpcBody);
-    const pattern = /^https:\/\/b23\.tv\/(cm|mall)/;
     message.cm = emptyBytes;
     if (options.filterTopReplies) {
+        const pattern = /https:\/\/b23\.tv\/(cm|mall)/;
         message.topReplies = message.topReplies.filter(reply => {
             const urls = reply.content?.urls || {};
-            return !Object.keys(urls).some(url => pattern.test(url));
+            const message = reply.content?.message || '';
+            return !Object.keys(urls).some(url => pattern.test(url)) && !pattern.test(message);
         });
     }
     modifyBody(MainListReply, message);
