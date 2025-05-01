@@ -19,3 +19,48 @@ message CastTips {
     int32 code = 1;
     string message = 2;
 }
+
+message PlayViewBusinessInfo {
+    repeated ClipInfo clip_info = 6;
+    EpisodeInfo episode_info = 18;
+    UserStatus user_status = 20;
+}
+
+message ClipInfo {
+    int32 start = 2;
+    int32 end = 3;
+    ClipType clip_type = 4;
+}
+
+enum ClipType {
+    NT_UNKNOWN = 0;
+    CLIP_TYPE_OP = 1;
+    CLIP_TYPE_ED = 2;
+}
+
+message EpisodeInfo {
+    int32 ep_id = 1;
+    int64 cid = 2;
+    int64 aid = 3;
+    int64 ep_status = 4;
+    SeasonInfo season_info = 5;
+}
+
+message SeasonInfo {
+    int32 season_id = 1;
+    int32 season_type = 2;
+    int32 season_status = 3;
+    int32 mode = 7;
+}
+
+message UserStatus {
+    WatchProgress watch_progress = 3;
+}
+
+message WatchProgress {
+    int32 last_ep_id = 1;
+    string last_ep_index = 2;
+    int64 progress = 3;
+    int64 last_play_cid = 4;
+    int64 last_play_aid = 7;
+}

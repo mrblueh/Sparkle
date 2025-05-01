@@ -2,8 +2,20 @@ syntax = "proto3";
 
 package bilibili.playershared;
 
+message VideoVod {
+    int64 aid = 1;
+    int64 cid = 2;
+}
+
 message PlayArcConf {
     map<int32, ArcConf> arc_confs = 1;
+}
+
+enum ConfType {
+    NO_TYPE = 0;
+    BACKGROUNDPLAY = 9;
+    SMALLWINDOW = 23;
+    SKIPOPED = 33;
 }
 
 message ArcConf {
@@ -16,6 +28,17 @@ message ArcConf {
 message ExtraContent {
     string disable_reason = 1;
     int64 disable_code = 2;
+}
+
+message PlayArc {
+    BizType video_type = 1;
+}
+
+enum BizType {
+    BIZ_TYPE_UNKNOWN = 0;
+    BIZ_TYPE_UGC = 1;
+    BIZ_TYPE_PGC = 2;
+    BIZ_TYPE_PUGV = 3;
 }
 
 message ViewInfo {
