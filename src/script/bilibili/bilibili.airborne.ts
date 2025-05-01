@@ -9,8 +9,12 @@ handlePlayViewUniteReq($request);
 function handlePlayViewUniteReq({ url, headers, body }) {
     const binaryBody = getBinaryBody(body);
     const message = PlayViewUniteReq.fromBinary(binaryBody);
-    const { aid, cid } = message.vod || {};
-    Promise.all([fetchOriginalRequest(url, headers, body), fetchSponsorBlock(av2bv(aid), cid)])
+    const { vod, bvid } = message;
+    const { aid, cid } = vod || {};
+    Promise.all([
+        fetchOriginalRequest(url, headers, body),
+        fetchSponsorBlock(bvid || av2bv(aid), cid !== '0' ? cid : ''),
+    ])
         .then(([{ headers, body }, segments]) => {
             $done({ response: { headers, body: newRawBody(handlePlayViewUniteReply(body, segments)) } });
         })
