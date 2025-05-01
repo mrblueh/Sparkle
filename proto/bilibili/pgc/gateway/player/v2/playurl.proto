@@ -12,6 +12,7 @@ message ViewInfo {
 }
 
 message PlayAbilityExtConf {
+    bool allow_close_subtitle = 1;
     CastTips cast_tips = 3;
 }
 

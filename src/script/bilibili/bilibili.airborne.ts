@@ -137,6 +137,9 @@ function getPGCAnyModel(segments: number[][]): PGCAnyModel {
                 },
             },
         },
+        playExtConf: {
+            allowCloseSubtitle: true,
+        },
     };
 }
 

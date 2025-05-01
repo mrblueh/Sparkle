@@ -7,6 +7,7 @@ import "bilibili/playershared/playershared.proto";
 
 message PlayViewUniteReq {
     bilibili.playershared.VideoVod vod = 1;
+    string bvid = 5;
 }
 
 message PlayViewUniteReply {
