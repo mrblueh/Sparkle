@@ -1,7 +1,7 @@
 import { PlayViewUniteReply, PlayViewUniteReq } from '@proto/bilibili/app/playerunite/v1/player';
 import { PGCAnyModel } from '@proto/bilibili/app/playerunite/pgcanymodel/pgcanymodel';
-import { ClipInfo, ClipType } from '@proto/bilibili/pgc/gateway/player/v2/playurl';
 import { BizType, ConfType } from '@proto/bilibili/playershared/playershared';
+import { ClipInfo, ClipType } from '@proto/bilibili/pgc/gateway/player/v2/playurl';
 import { av2bv } from 'src/util/bilibili';
 
 handlePlayViewUniteReq($request);
@@ -11,12 +11,10 @@ function handlePlayViewUniteReq({ url, headers, body }) {
     const message = PlayViewUniteReq.fromBinary(binaryBody);
     const { vod, bvid } = message;
     const { aid, cid } = vod || {};
-    Promise.all([
-        fetchOriginalRequest(url, headers, body),
-        fetchSponsorBlock(bvid || av2bv(aid), cid !== '0' ? cid : ''),
-    ])
+    const videoId = bvid || av2bv(aid);
+    Promise.all([fetchOriginalRequest(url, headers, body), fetchSponsorBlock(videoId, cid !== '0' ? cid : '')])
         .then(([{ headers, body }, segments]) => {
-            $done({ response: { headers, body: newRawBody(handlePlayViewUniteReply(body, segments)) } });
+            $done({ response: { headers, body: newRawBody(handlePlayViewUniteReply(body, segments, videoId)) } });
         })
         .catch(err => {
             console.log(err.toString());
@@ -44,9 +42,9 @@ function fetchOriginalRequest(url, headers, body): Promise<{ headers; body }> {
     });
 }
 
-function fetchSponsorBlock(bvid, cid): Promise<number[][]> {
+function fetchSponsorBlock(videoId, cid): Promise<number[][]> {
     const params = {
-        url: `https://bsbsb.top/api/skipSegments?videoID=${bvid}&cid=${cid}&category=sponsor`,
+        url: `https://bsbsb.top/api/skipSegments?videoID=${videoId}&cid=${cid}&category=sponsor`,
         headers: {
             origin: 'https://github.com/kokoryh/Sparkle/blob/master/release/surge/module/bilibili.sgmodule',
             'x-ext-version': '1.0.0',
@@ -54,7 +52,6 @@ function fetchSponsorBlock(bvid, cid): Promise<number[][]> {
     };
     return new Promise(resolve => {
         $httpClient.get(params, (error, response, data) => {
-            console.log(response.status);
             if (response.status !== 200) {
                 resolve([]);
             } else {
@@ -72,7 +69,7 @@ function fetchSponsorBlock(bvid, cid): Promise<number[][]> {
     });
 }
 
-function handlePlayViewUniteReply(body, segments: number[][]) {
+function handlePlayViewUniteReply(body, segments: number[][], videoId: string) {
     const emptyBytes = new Uint8Array(0);
     const binaryBody = getBinaryBody(body);
     const message = PlayViewUniteReply.fromBinary(binaryBody);
@@ -89,12 +86,20 @@ function handlePlayViewUniteReply(body, segments: number[][]) {
         });
     }
     if (segments.length) {
-        console.log(JSON.stringify(segments));
+        console.log(`${videoId}: ${JSON.stringify(segments)}`);
+
         const arcConfs = message.playArcConf?.arcConfs || {};
         [ConfType.SKIPOPED].forEach(i => {
             arcConfs[i] = {
                 isSupport: true,
                 disabled: false,
+                unsupportScene: [],
+            };
+        });
+        [ConfType.FREYAENTER, ConfType.FREYAFULLENTER].forEach(i => {
+            arcConfs[i] = {
+                isSupport: false,
+                disabled: true,
                 unsupportScene: [],
             };
         });
@@ -129,11 +134,11 @@ function getPGCAnyModel(segments: number[][]): PGCAnyModel {
             },
             userStatus: {
                 watchProgress: {
-                    lastEpId: 1212094,
+                    lastEpId: 1231523,
                     lastEpIndex: 'OP',
                     progress: '1',
-                    lastPlayAid: '113654498332845',
-                    lastPlayCid: '27348831243',
+                    lastPlayAid: '113740078909891',
+                    lastPlayCid: '27730904912',
                 },
             },
         },
