@@ -31,7 +31,7 @@ function fetchOriginalRequest(url, headers, body): Promise<{ headers; body }> {
     };
     return new Promise((resolve, reject) => {
         $httpClient.post(params, (error, response, data) => {
-            if (response.status !== 200) {
+            if (response?.status !== 200) {
                 reject('Fetch Original Request Failed');
             }
             resolve({
@@ -52,7 +52,7 @@ function fetchSponsorBlock(videoId, cid): Promise<number[][]> {
     };
     return new Promise(resolve => {
         $httpClient.get(params, (error, response, data) => {
-            if (response.status !== 200) {
+            if (response?.status !== 200) {
                 resolve([]);
             } else {
                 const body: any[] = JSON.parse(data as string);
@@ -149,9 +149,9 @@ function getPGCAnyModel(segments: number[][]): PGCAnyModel {
 }
 
 function getClipInfo(segments: number[][]): ClipInfo[] {
-    return segments.map(segment => ({
-        start: segment[0],
-        end: segment[1],
+    return segments.map(([start, end]) => ({
+        start,
+        end,
         clipType: ClipType.CLIP_TYPE_OP,
     }));
 }
