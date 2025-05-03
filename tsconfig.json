@@ -9,7 +9,8 @@
         "moduleResolution": "bundler",
         "typeRoots": ["./node_modules/@types"],
         "paths": {
-            "@proto/*": ["src/proto/*"]
+            "@proto/*": ["src/proto/*"],
+            "@util/*": ["src/util/*"]
         },
         "allowJs": true,
         "checkJs": true,
