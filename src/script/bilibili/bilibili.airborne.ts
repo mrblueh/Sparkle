@@ -8,12 +8,14 @@ import {
     DmSegMobileReply,
     DmSegMobileReq,
 } from '@proto/bilibili/community/service/dm/v1/dm';
-import { av2bv } from 'src/util/bilibili';
+import { av2bv } from '@util/bilibili';
 
 const url = $request.url;
+const device = globalThis.$environment?.['device-model'] || globalThis.$loon;
+const isIpad = device?.includes('iPad');
 if (url.endsWith('/PlayViewUnite')) {
     handlePlayViewUniteReq($request);
-} else if (url.endsWith('/DmSegMobile')) {
+} else if (url.endsWith('/DmSegMobile') && isIpad) {
     handleDmSegMobileReq($request);
 } else {
     $done({});
