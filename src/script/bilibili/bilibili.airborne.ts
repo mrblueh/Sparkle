@@ -2,9 +2,22 @@ import { PlayViewUniteReply, PlayViewUniteReq } from '@proto/bilibili/app/player
 import { PGCAnyModel } from '@proto/bilibili/app/playerunite/pgcanymodel/pgcanymodel';
 import { BizType, ConfType } from '@proto/bilibili/playershared/playershared';
 import { ClipInfo, ClipType } from '@proto/bilibili/pgc/gateway/player/v2/playurl';
+import {
+    DanmakuElem,
+    DmColorfulType,
+    DmSegMobileReply,
+    DmSegMobileReq,
+} from '@proto/bilibili/community/service/dm/v1/dm';
 import { av2bv } from 'src/util/bilibili';
 
-handlePlayViewUniteReq($request);
+const url = $request.url;
+if (url.endsWith('/PlayViewUnite')) {
+    handlePlayViewUniteReq($request);
+} else if (url.endsWith('/DmSegMobile')) {
+    handleDmSegMobileReq($request);
+} else {
+    $done({});
+}
 
 function handlePlayViewUniteReq({ url, headers, body }) {
     const binaryBody = getBinaryBody(body);
@@ -17,7 +30,27 @@ function handlePlayViewUniteReq({ url, headers, body }) {
             $done({ response: { headers, body: newRawBody(handlePlayViewUniteReply(body, segments, videoId)) } });
         })
         .catch(err => {
-            console.log(err.toString());
+            console.log(err?.toString());
+            $done({});
+        });
+}
+
+function handleDmSegMobileReq({ url, headers, body }) {
+    const binaryBody = getBinaryBody(body);
+    const message = DmSegMobileReq.fromBinary(binaryBody);
+    const { pid, oid } = message;
+    const videoId = av2bv(pid);
+    Promise.all([fetchOriginalRequest(url, headers, body), fetchSponsorBlock(videoId, oid !== '0' ? oid : '')])
+        .then(([{ headers, body }, segments]) => {
+            if (segments.length) {
+                console.log(`${videoId}: ${JSON.stringify(segments)}`);
+                $done({ response: { headers, body: newRawBody(handleDmSegMobileReply(body, segments)) } });
+            } else {
+                $done({ response: { headers, body } });
+            }
+        })
+        .catch(err => {
+            console.log(err?.toString());
             $done({});
         });
 }
@@ -58,8 +91,7 @@ function fetchSponsorBlock(videoId, cid): Promise<number[][]> {
                 const body: any[] = JSON.parse(data as string);
                 const segments = body.reduce((result, element) => {
                     if (element.actionType === 'skip') {
-                        const [start, end] = element.segment;
-                        result.push([Math.floor(start), Math.ceil(end)]);
+                        result.push(element.segment);
                     }
                     return result;
                 }, []);
@@ -150,10 +182,46 @@ function getPGCAnyModel(segments: number[][]): PGCAnyModel {
 
 function getClipInfo(segments: number[][]): ClipInfo[] {
     return segments.map(([start, end]) => ({
-        start,
-        end,
+        start: Math.floor(start),
+        end: Math.ceil(end),
         clipType: ClipType.CLIP_TYPE_OP,
     }));
+}
+
+function handleDmSegMobileReply(body, segments: number[][]) {
+    const binaryBody = getBinaryBody(body);
+    const message = DmSegMobileReply.fromBinary(binaryBody);
+    message.elems.unshift(...getAirBorneDms(segments));
+    return DmSegMobileReply.toBinary(message);
+}
+
+function getAirBorneDms(segments: number[][]): DanmakuElem[] {
+    return segments.map((segment, index) => {
+        const id = (index + 1).toString();
+        const start = Math.max(Math.floor(segment[0] * 1000 - 2000), 1);
+        const end = Math.floor(segment[1] * 1000);
+        return {
+            id,
+            progress: start,
+            mode: 5,
+            fontsize: 50,
+            color: 16777215,
+            midHash: '1948dd5d',
+            content: '点击空降广告结束',
+            ctime: '1735660800',
+            weight: 11,
+            action: `airborne:${end}`,
+            pool: 0,
+            idStr: id,
+            attr: 1310724,
+            animation: '',
+            extra: '',
+            colorful: DmColorfulType.NONE_TYPE,
+            type: 1,
+            oid: '212364987',
+            dmFrom: 1,
+        };
+    });
 }
 
 function getBinaryBody(body) {
