@@ -16,20 +16,13 @@
     },
     {
         pos: 3,
-        id: 478,
-        name: "\u70ED\u95E8",
-        tab_id: "\u70ED\u95E8tab",
-        uri: "bilibili://pegasus/hottopic"
-    },
-    {
-        pos: 4,
         id: 545,
         name: "\u52A8\u753B",
         tab_id: "bangumi",
         uri: "bilibili://pgc/home"
     },
     {
-        pos: 5,
+        pos: 4,
         id: 151,
         name: "\u5F71\u89C6",
         tab_id: "film",
